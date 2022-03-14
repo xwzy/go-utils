@@ -31,7 +31,3 @@ func RemoveDir(path string) error {
 func MoveDir(src, dst string) error {
 	return os.Rename(src, dst)
 }
-
-func CopyDir(src, dst string) error {
-
-}
