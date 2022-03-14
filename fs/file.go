@@ -30,3 +30,26 @@ func ReadFile(filename string) ([]byte, error) {
 	return buf.Bytes(), nil
 }
 
+func RemoveFile(filename string) error {
+	return os.Remove(filename)
+}
+
+func MoveFile(oldPath, newPath string) error {
+	return os.Rename(oldPath, newPath)
+}
+
+func CopyFile(src, dst string) error {
+	srcFile, err := os.Open(src)
+	if err != nil {
+		return err
+	}
+	defer srcFile.Close()
+	dstFile, err := os.Create(dst)
+	if err != nil {
+		return err
+	}
+	defer dstFile.Close()
+	_, err = io.Copy(dstFile, srcFile)
+	return err
+}
+
