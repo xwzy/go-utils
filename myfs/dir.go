@@ -1,6 +1,10 @@
-package fs
+package myfs
 
-import "os"
+import (
+	"io/fs"
+	"io/ioutil"
+	"os"
+)
 
 func DirExists(path string) bool {
 	_, err := os.Stat(path)
@@ -30,4 +34,20 @@ func RemoveDir(path string) error {
 
 func MoveDir(src, dst string) error {
 	return os.Rename(src, dst)
+}
+
+func TraverseDir(path string, handler func(idx int, file fs.FileInfo, path string) error) (int, error) {
+	flist, err := ioutil.ReadDir(path)
+	fileNum := len(flist)
+	if err != nil {
+		return fileNum, err
+	}
+	for idx, f := range flist {
+		err := handler(idx, f, path)
+		if err != nil {
+			return fileNum, err
+		}
+	}
+
+	return fileNum, nil
 }

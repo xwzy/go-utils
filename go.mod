@@ -1,3 +1,3 @@
-module github.com/xwzy/go-utils
+module go-utils
 
 go 1.17
